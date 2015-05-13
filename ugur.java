@@ -1,4 +1,4 @@
-package ugurTest;
+package denemeler;
 
 import com.thoughtworks.selenium.*;
 import org.junit.After;
@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.regex.Pattern;
 
-public class ugur {
+public class ugurson {
 	private Selenium selenium;
 
 	@Before
@@ -17,11 +17,11 @@ public class ugur {
 	}
 
 	@Test
-	public void testUgur() throws Exception {
+	public void testUgurson() throws Exception {
 		selenium.open("/");
-		selenium.click("css=img[alt=\"Alışverişin Uğurlu Adresi\"]");
+		selenium.click("css=img[alt=\"AlÄ±ÅŸveriÅŸin UÄŸurlu Adresi\"]");
 		selenium.waitForPageToLoad("30000");
-		selenium.click("link=Giriş Yap");
+		selenium.click("link=GiriÅŸ Yap");
 		selenium.waitForPageToLoad("30000");
 		selenium.type("id=email", "ugur.yenigul@gmail.com");
 		selenium.type("id=password", "357ksd");
@@ -31,6 +31,35 @@ public class ugur {
 		selenium.waitForPageToLoad("30000");
 		selenium.click("link=Yazarlar");
 		selenium.waitForPageToLoad("30000");
+		selenium.open("/yazarlar/A");
+		selenium.open("/yazarlar/B");
+		selenium.open("/yazarlar/C");
+		selenium.open("/yazarlar/Ã‡");
+		selenium.open("/yazarlar/D");
+		selenium.open("/yazarlar/E");
+		selenium.open("/yazarlar/F");
+		selenium.open("/yazarlar/G");
+		selenium.open("/yazarlar/H");
+		selenium.open("/yazarlar/I");
+		selenium.open("/yazarlar/Ä°");
+		selenium.open("/yazarlar/J");
+		selenium.open("/yazarlar/K");
+		selenium.open("/yazarlar/L");
+		selenium.open("/yazarlar/M");
+		selenium.open("/yazarlar/N");
+		selenium.open("/yazarlar/O");
+		selenium.open("/yazarlar/Ö");
+		selenium.open("/yazarlar/P");
+		selenium.open("/yazarlar/Q");
+		selenium.open("/yazarlar/R");
+		selenium.open("/yazarlar/S");
+		selenium.open("/yazarlar/Ş");
+		selenium.open("/yazarlar/T");
+		selenium.open("/yazarlar/U");
+		selenium.open("/yazarlar/Ü");
+		selenium.open("/yazarlar/V");
+		selenium.open("/yazarlar/Y");
+		selenium.open("/yazarlar/Z");
 	}
 
 	@After
