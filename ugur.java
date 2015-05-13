@@ -34,14 +34,14 @@ public class ugurson {
 		selenium.open("/yazarlar/A");
 		selenium.open("/yazarlar/B");
 		selenium.open("/yazarlar/C");
-		selenium.open("/yazarlar/Ã‡");
+		selenium.open("/yazarlar/Ç");
 		selenium.open("/yazarlar/D");
 		selenium.open("/yazarlar/E");
 		selenium.open("/yazarlar/F");
 		selenium.open("/yazarlar/G");
 		selenium.open("/yazarlar/H");
 		selenium.open("/yazarlar/I");
-		selenium.open("/yazarlar/Ä°");
+		selenium.open("/yazarlar/İ");
 		selenium.open("/yazarlar/J");
 		selenium.open("/yazarlar/K");
 		selenium.open("/yazarlar/L");
