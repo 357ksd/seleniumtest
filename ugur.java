@@ -1,4 +1,4 @@
-package com.example.tests;
+package ugurTest;
 
 import com.thoughtworks.selenium.*;
 import org.junit.After;
