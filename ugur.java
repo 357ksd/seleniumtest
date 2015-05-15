@@ -1,69 +1,100 @@
-package denemeler;
-
-import com.thoughtworks.selenium.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import java.util.regex.Pattern;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class ugurson {
-	private Selenium selenium;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
-	@Before
-	public void setUp() throws Exception {
-		selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://www.n11.com/");
-		selenium.start();
-	}
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-	@Test
-	public void testUgurson() throws Exception {
-		selenium.open("/");
-		selenium.click("css=img[alt=\"AlÄ±ÅŸveriÅŸin UÄŸurlu Adresi\"]");
-		selenium.waitForPageToLoad("30000");
-		selenium.click("link=GiriÅŸ Yap");
-		selenium.waitForPageToLoad("30000");
-		selenium.type("id=email", "ugur.yenigul@gmail.com");
-		selenium.type("id=password", "357ksd");
-		selenium.click("id=loginButton");
-		selenium.waitForPageToLoad("30000");
-		selenium.click("link=Kitap");
-		selenium.waitForPageToLoad("30000");
-		selenium.click("link=Yazarlar");
-		selenium.waitForPageToLoad("30000");
-		selenium.open("/yazarlar/A");
-		selenium.open("/yazarlar/B");
-		selenium.open("/yazarlar/C");
-		selenium.open("/yazarlar/Ç");
-		selenium.open("/yazarlar/D");
-		selenium.open("/yazarlar/E");
-		selenium.open("/yazarlar/F");
-		selenium.open("/yazarlar/G");
-		selenium.open("/yazarlar/H");
-		selenium.open("/yazarlar/I");
-		selenium.open("/yazarlar/İ");
-		selenium.open("/yazarlar/J");
-		selenium.open("/yazarlar/K");
-		selenium.open("/yazarlar/L");
-		selenium.open("/yazarlar/M");
-		selenium.open("/yazarlar/N");
-		selenium.open("/yazarlar/O");
-		selenium.open("/yazarlar/Ö");
-		selenium.open("/yazarlar/P");
-		selenium.open("/yazarlar/Q");
-		selenium.open("/yazarlar/R");
-		selenium.open("/yazarlar/S");
-		selenium.open("/yazarlar/Ş");
-		selenium.open("/yazarlar/T");
-		selenium.open("/yazarlar/U");
-		selenium.open("/yazarlar/Ü");
-		selenium.open("/yazarlar/V");
-		selenium.open("/yazarlar/Y");
-		selenium.open("/yazarlar/Z");
-	}
+public class AuthorTest {
 
-	@After
-	public void tearDown() throws Exception {
-		selenium.stop();
-	}
+    private static final String URL = "https://www.n11.com/";
+    String fBMail = "testforneleven@gmail.com";
+    String fBPass = "test11223344";
+
+    FirefoxDriver driver = new FirefoxDriver();
+
+    @Test
+    public void shouldListAuthors() throws InterruptedException {
+        driver.navigate().to(URL);
+        driver.findElement(By.xpath("//a[@class='btnSignIn']")).click();
+
+        driver.findElement(By.xpath("//form[@id='loginForm']/div[4]")).click();
+        Thread.sleep(5000);
+
+        String mainWindow = driver.getWindowHandle();
+        Set<String> PopUpHandle = driver.getWindowHandles();
+        Iterator<String> itr = PopUpHandle.iterator();
+        String fBLoginWindow = "";
+
+        while (itr.hasNext()) {
+            if (itr.next() != mainWindow) {
+                fBLoginWindow = itr.next().toString();
+            }
+        }
+
+        driver.switchTo().window(fBLoginWindow);
+
+        /*Facebook Login*/
+
+        WebElement fBMailElement = driver.findElement(By.id("email"));
+        WebElement fBPassElement = driver.findElement(By.id("pass"));
+        WebElement fBLoginElement = driver.findElement(By.id("u_0_2"));
+
+        fBMailElement.clear();
+        fBMailElement.sendKeys(fBMail);
+
+        fBPassElement.clear();
+        fBPassElement.sendKeys(fBPass);
+
+        fBLoginElement.click();
+
+        driver.switchTo().window(mainWindow);
+
+        Thread.sleep(5000);
+        driver.findElement(By.xpath("//*[@id='contentMain']/div/nav/ul/li[8]/h2/a")).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(".//*[@id='contentCategory']/div/div[2]/div[1]/ul/li[1]/a")).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath(".//*[@id='contentListing']/div/div/div[2]/section[3]/h2/a")).click();
+
+        for (int i = 2; i < 33; i++) {
+            WebElement letter = driver.findElement(By.xpath("//span[contains(@class, 'alphabetSearch')][" + i + "]"));
+            char firstLetter = letter.getText().toLowerCase().charAt(0);
+            letter.click();
+
+            List<WebElement> authorsList = driver.findElements(By.xpath(".//*[@id='authorsList']/div//li/a"));
+
+            assertTrue(authorsList.size() <= 80);
+
+            for (int j = 0; j < authorsList.size(); j++) {
+                assertEquals(firstLetter, authorsList.get(j).getText().toLowerCase().charAt(0));
+            }
+
+            String lastName = authorsList.get(authorsList.size() - 1).getText();
+
+            boolean paging = false;
+            try {
+                WebElement linkSecondPage = driver.findElement(By.xpath(".//*[@id='content']/div[4]/a[2]"));
+                linkSecondPage.click();
+                paging = true;
+
+            } catch (TimeoutException e) {
+                System.err.print(e.getMessage());
+            }
+
+            if (paging) {
+                authorsList = driver.findElements(By.xpath(".//*[@id='authorsList']/div//li/a"));
+                for (int j = 0; j < authorsList.size(); j++) {
+                    assertNotEquals(lastName, authorsList.get(j).getText());
+                }
+            }
+        }
+    }
 }
